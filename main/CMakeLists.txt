@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15...3.21)
+cmake_minimum_required(VERSION 3.10...3.21)
 
 project(ufo-esp32
   VERSION
