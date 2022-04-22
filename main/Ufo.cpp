@@ -1,4 +1,4 @@
-#include <freertos/FreeRTOS.h>
+#include <FreeRTOS.h>
 #include "Ufo.h"
 #include "DynatraceIntegration.h"
 #include "DynatraceMonitoring.h"
