@@ -9,4 +9,4 @@ project(ufo-esp32
     CXX
 )
 
-add_executable (ufo-esp32-bin Ufo.cpp StringParser.cpp)
+add_executable (ufo-esp32-bin Ufo.cpp)
