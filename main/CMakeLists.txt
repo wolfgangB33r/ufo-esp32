@@ -1,12 +1,8 @@
-cmake_minimum_required(VERSION 3.10...3.21)
+# Edit following two lines to set component requirements (see docs)
+set(COMPONENT_REQUIRES )
+set(COMPONENT_PRIV_REQUIRES )
 
-project(ufo-esp32
-  VERSION
-    1.0
-  DESCRIPTION
-    "Dynatrace Ufo project"
-  LANGUAGES
-    CXX
-)
+set(COMPONENT_SRCS "Ufo.cpp")
+set(COMPONENT_ADD_INCLUDEDIRS "")
 
-add_executable (ufo-esp32-bin Ufo.cpp)
+register_component()
