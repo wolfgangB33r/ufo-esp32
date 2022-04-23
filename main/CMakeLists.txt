@@ -2,7 +2,7 @@
 set(COMPONENT_REQUIRES )
 set(COMPONENT_PRIV_REQUIRES )
 
-set(COMPONENT_SRCS "Ufo.cpp")
+set(COMPONENT_SRCS "ApiStore.cpp" "Ufo.cpp")
 set(COMPONENT_ADD_INCLUDEDIRS "")
 
 register_component()
