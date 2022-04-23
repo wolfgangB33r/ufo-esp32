@@ -30,6 +30,6 @@ set(COMPONENT_SRCS
     "WebServer.cpp"
     "Wifi.cpp"
     )
-set(COMPONENT_ADD_INCLUDEDIRS "")
+set(COMPONENT_ADD_INCLUDEDIRS "" ".")
 
 register_component()
