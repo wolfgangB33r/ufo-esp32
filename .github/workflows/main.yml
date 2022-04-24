@@ -23,9 +23,26 @@ jobs:
       run: |
         ls -l
 
+    - name: Data to header file conversion
+      run: |
+        python data2h.py data/index.html main/indexhtml.h
+        python data2h.py data/material-design-icons.ttf main/fontttf.h
+        python data2h.py data/material-design-icons.woff main/fontwoff.h
+        python data2h.py data/material-design-icons.svg main/fontsvg.h
+        python data2h.py data/material-design-icons.eot main/fonteot.h
+        python data2h.py data/cert.pem main/certpem.h
+        python data2h.py data/key.pem main/keypem.h
+
     - name: esp-idf build
       uses: espressif/esp-idf-ci-action@main
       with:
         esp_idf_version: v3.3.1
         target: esp32
         path: '.'
+    
+    - name: Store Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: esp32-binaries
+        path: |
+          /tmp/build/*.zip   
