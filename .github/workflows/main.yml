@@ -45,4 +45,4 @@ jobs:
       with:
         name: esp32-binaries
         path: |
-          /tmp/build/*.zip   
+          build/esp32-ufo.bin
