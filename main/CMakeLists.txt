@@ -32,6 +32,8 @@ set(COMPONENT_SRCS
     )
 set(COMPONENT_ADD_INCLUDEDIRS "" ".")
 
-target_add_binary_data(esp32-ufo.elf "certkey.pem" TEXT)
+# set(COMPONENT_EMBED_FILES index.html favicon.ico timepicker.less less.min.js)
+
+set(COMPONENT_EMBED_TXTFILES certkey.pem)
 
 register_component()
