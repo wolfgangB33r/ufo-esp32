@@ -32,6 +32,6 @@ set(COMPONENT_SRCS
     )
 set(COMPONENT_ADD_INCLUDEDIRS "" ".")
 
-target_add_binary_data(${COMPONENT_TARGET} "certkey.pem" TEXT)
+target_add_binary_data(${COMPONENT_TARGET} "main/certkey.pem" TEXT)
 
 register_component()
