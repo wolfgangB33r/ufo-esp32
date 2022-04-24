@@ -32,6 +32,6 @@ set(COMPONENT_SRCS
     )
 set(COMPONENT_ADD_INCLUDEDIRS "" ".")
 
-target_add_binary_data(${CMAKE_PROJECT_NAME}.elf "main/certkey.pem" BINARY)
+target_add_binary_data(${CMAKE_PROJECT_NAME}.elf "certkey.pem" TEXT)
 
 register_component()
