@@ -88,8 +88,6 @@ void DynatraceIntegration::ProcessConfigChange(){
     mActConfigRevision++;
 }
 
-ttt
-
 void ParseIntegrationUrl(Url& rUrl, String& sEnvIdOrUrl, String& sApiToken){
     String sHelp;
  
