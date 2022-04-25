@@ -114,7 +114,7 @@ void ParseIntegrationUrl(Url& rUrl, String& sEnvIdOrUrl, String& sApiToken){
                 
         }   
     }
-    
+     
     ESP_LOGD(LOGTAG, "URL: %s", sHelp.c_str());
     rUrl.Clear();
     rUrl.Parse(sHelp);
