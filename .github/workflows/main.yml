@@ -39,6 +39,10 @@ jobs:
         esp_idf_version: v3.3.1
         target: esp32
         path: '.'
+        
+    - name: List build artefacts
+      run: |
+        ls -l build/
     
     - name: Store Artifacts
       uses: actions/upload-artifact@v2
