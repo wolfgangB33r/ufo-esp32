@@ -37,7 +37,6 @@ jobs:
       uses: espressif/esp-idf-ci-action@main
       with:
         esp_idf_version: v3.3.1
-        target: esp8266
         path: '.'
         
     - name: List build artefacts
