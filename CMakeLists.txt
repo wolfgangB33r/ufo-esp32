@@ -3,4 +3,4 @@
 cmake_minimum_required(VERSION 3.5)
 set(COMPONENT_REQUIRES aws-iot-device-sdk-cpp-v2)
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
-project(esp32-ufo)
+project(ufo-esp32)
