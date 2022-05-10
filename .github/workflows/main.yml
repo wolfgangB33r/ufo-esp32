@@ -46,9 +46,6 @@ jobs:
     - name: Store Artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: esp32-ufo-firmware 
+        name: ufo-esp32.bin 
         path: |
           build/esp32-ufo.bin
-          build/bootloader/bootloader.bin
-          build/partition_table/partition-table.bin
-          build/ota_data_initial.bin
