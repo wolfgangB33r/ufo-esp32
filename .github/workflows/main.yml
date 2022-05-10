@@ -48,4 +48,4 @@ jobs:
       with:
         name: ufo-esp32.bin 
         path: |
-          build/esp32-ufo.bin
+          build/ufo-esp32.bin
