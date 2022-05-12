@@ -117,6 +117,7 @@ void ParseIntegrationUrl(Url& rUrl, String& sEnvIdOrUrl, String& sApiToken, Stri
     ESP_LOGD(LOGTAG, "URL: %s", sHelp.c_str());
     rUrl.Clear();
     rUrl.Parse(sHelp);
+    ESP_LOGE(LOGTAG, "Testing %s", sHelp.c_str());
  }
 
 void DynatraceIntegration::Run(__uint8_t uTaskId) {
@@ -131,7 +132,7 @@ void DynatraceIntegration::Run(__uint8_t uTaskId) {
                 String problemSelector = "status%%28%%22open%%22%%29";
                 ParseIntegrationUrl(mDtUrl, mpConfig->msDTEnvIdOrUrl, mpConfig->msDTApiToken, problemSelector);
                 
-                ESP_LOGE(LOGTAG, "Testing %s", mDtUrl.c_str());
+                
             }
             GetData();
             ESP_LOGD(LOGTAG, "free heap after processing DT: %i", esp_get_free_heap_size());            
