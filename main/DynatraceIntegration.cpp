@@ -131,8 +131,6 @@ void DynatraceIntegration::Run(__uint8_t uTaskId) {
                 uConfigRevision = mActConfigRevision; //memory barrier would be needed here
                 String problemSelector = "status(\"open\")";
                 ParseIntegrationUrl(mDtUrl, mpConfig->msDTEnvIdOrUrl, mpConfig->msDTApiToken, problemSelector);
-                
-                
             }
             GetData();
             ESP_LOGD(LOGTAG, "free heap after processing DT: %i", esp_get_free_heap_size());            
@@ -162,6 +160,7 @@ void DynatraceIntegration::GetData() {
         String response = dtClient.GetResponseData();
         mpUfo->dt.leaveAction(dtHttpGet, &mDtUrlString, responseCode, response.length());
         if (responseCode == 200) {
+            ESP_LOGE(LOGTAG, "GOT the response!! %s", response.c_str());
             DynatraceAction* dtProcess = mpUfo->dt.enterAction("Process Dynatrace Metrics", dtPollApi);	
             Process(response);
             mpUfo->dt.leaveAction(dtProcess);
