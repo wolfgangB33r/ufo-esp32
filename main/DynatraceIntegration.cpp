@@ -90,7 +90,6 @@ void DynatraceIntegration::ProcessConfigChange(){
 
 void ParseIntegrationUrl(Url& rUrl, String& sEnvIdOrUrl, String& sApiToken, String& problemSelector){
     String sHelp;
-    ESP_LOGI(LOGTAG, "%s", problemSelector.c_str());
     ESP_LOGI(LOGTAG, "%s", sEnvIdOrUrl.c_str());
     ESP_LOGD(LOGTAG, "%s", sApiToken.c_str());
 
@@ -131,6 +130,8 @@ void DynatraceIntegration::Run(__uint8_t uTaskId) {
                 uConfigRevision = mActConfigRevision; //memory barrier would be needed here
                 String problemSelector = "status%%28%%22open%%22%%29";
                 ParseIntegrationUrl(mDtUrl, mpConfig->msDTEnvIdOrUrl, mpConfig->msDTApiToken, problemSelector);
+                
+                ESP_LOGE(LOGTAG, "Testing %s", mDtUrl.c_str());
             }
             GetData();
             ESP_LOGD(LOGTAG, "free heap after processing DT: %i", esp_get_free_heap_size());            
