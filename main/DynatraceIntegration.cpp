@@ -90,7 +90,7 @@ void DynatraceIntegration::ProcessConfigChange(){
 
 void ParseIntegrationUrl(Url& rUrl, String& sEnvIdOrUrl, String& sApiToken, String& problemSelector){
     String sHelp;
- 
+    ESP_LOGI(LOGTAG, "%s", problemSelector.c_str());
     ESP_LOGI(LOGTAG, "%s", sEnvIdOrUrl.c_str());
     ESP_LOGD(LOGTAG, "%s", sApiToken.c_str());
 
