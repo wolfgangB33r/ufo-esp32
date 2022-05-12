@@ -244,11 +244,10 @@ void DynatraceIntegration::Process(String& jsonString) {
         free(sJsonPrint);
     }
 
-//    bool changed = false;
-    int iTotalProblems = cJSON_GetObjectItem(json, "totalOpenProblemsCount")->valueint;
-    int iInfrastructureProblems = cJSON_GetObjectItem(cJSON_GetObjectItem(json, "openProblemCounts"), "INFRASTRUCTURE")->valueint;
-    int iApplicationProblems = cJSON_GetObjectItem(cJSON_GetObjectItem(json, "openProblemCounts"), "APPLICATION")->valueint;
-    int iServiceProblems = cJSON_GetObjectItem(cJSON_GetObjectItem(json, "openProblemCounts"), "SERVICE")->valueint;
+    int iTotalProblems = cJSON_GetObjectItem(json, "totalCount")->valueint;
+    int iInfrastructureProblems = cJSON_GetObjectItem(json, "totalCount")->valueint; //cJSON_GetObjectItem(cJSON_GetObjectItem(json, "openProblemCounts"), "INFRASTRUCTURE")->valueint;
+    int iApplicationProblems = cJSON_GetObjectItem(json, "totalCount")->valueint; //cJSON_GetObjectItem(cJSON_GetObjectItem(json, "openProblemCounts"), "APPLICATION")->valueint;
+    int iServiceProblems = cJSON_GetObjectItem(json, "totalCount")->valueint; //cJSON_GetObjectItem(cJSON_GetObjectItem(json, "openProblemCounts"), "SERVICE")->valueint;
 
     ESP_LOGI(LOGTAG, "open Dynatrace problems: %i", iTotalProblems);
     ESP_LOGI(LOGTAG, "open Infrastructure problems: %i", iInfrastructureProblems);
@@ -258,21 +257,16 @@ void DynatraceIntegration::Process(String& jsonString) {
     cJSON_Delete(parentJson);
 
     if (iInfrastructureProblems != miInfrastructureProblems) {
-//        changed = true;
         miInfrastructureProblems = iInfrastructureProblems;
     }
     if (iApplicationProblems != miApplicationProblems) {
-//        changed = true;
         miApplicationProblems = iApplicationProblems;
     }
     if (iServiceProblems != miServiceProblems) {
-//        changed = true;
         miServiceProblems = iServiceProblems;
     }
     miTotalProblems = iTotalProblems;
 
-//    if (changed) {
-        DisplayDefault();
-//    }
+    DisplayDefault();
 
 }
