@@ -368,13 +368,13 @@
 					<div class="padded-full">
 						<p>
 							Connect your UFO to a Dynatrace Server to query the problem API.<br />
-							Following metrics will then be visualized by the UFO:
+							The UFO will visualize the following three incident situations:
 							<ul>
 								Open application problems (red)<br>
 								Open service problems (purple)<br>
 								Open infrastructure problems (yellow)
 							</ul>
-							Only the three most severe problems will be shows.
+							Only the three most severe problems will be shown.
 						</p>
 						<ul class="list">
 							<li class="">
@@ -387,7 +387,7 @@
 						</ul>
 
 						<input type="text" name="dtenvid" placeholder="Environment ID (tenant) or complete URL (like 'https://mine.dynatrace.com/e/<environment id>')" id="dtenvid" />
-						<input type="text" name="dtapitoken" placeholder="API Token" id="dtapitoken" />
+						<input type="text" name="dtapitoken" placeholder="API Token (problem v2 read access scope required)" id="dtapitoken" />
 						<input type="number" min="10" max="300" placeholder="polling interval in sec" name="dtinterval" id="dtinterval" />
 						<!--<ul class="list">
                         <li class="padded-for-list">
