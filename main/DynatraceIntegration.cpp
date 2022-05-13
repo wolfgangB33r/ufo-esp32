@@ -110,14 +110,12 @@ void ParseIntegrationUrl(Url& rUrl, String& sEnvIdOrUrl, String& sApiToken, char
                 else
                     sHelp.printf("https://%s/api/v2/problems?pageSize=1&pageSize=1&Api-Token=%s&problemSelector=%s", sEnvIdOrUrl.c_str(), sApiToken.c_str(), problemSelector);
             }
-                
         }   
     }
      
     ESP_LOGD(LOGTAG, "URL: %s", sHelp.c_str());
     rUrl.Clear();
     rUrl.Parse(sHelp);
-    ESP_LOGE(LOGTAG, "Testing %s", sHelp.c_str());
  }
 
 void DynatraceIntegration::Run(__uint8_t uTaskId) {
@@ -132,28 +130,28 @@ void DynatraceIntegration::Run(__uint8_t uTaskId) {
             }
             ParseIntegrationUrl(mDtUrl, mpConfig->msDTEnvIdOrUrl, mpConfig->msDTApiToken, "status(\"open\")");
             int value = GetData();
-            ESP_LOGI(LOGTAG, "open Dynatrace problems: %i", value);
+            ESP_LOGI(LOGTAG, "Open Dynatrace problems: %i", value);
             if (value >= 0) {
                 miTotalProblems = value;
             }
 
             ParseIntegrationUrl(mDtUrl, mpConfig->msDTEnvIdOrUrl, mpConfig->msDTApiToken, "status(\"open\"),impactLevel(\"INFRASTRUCTURE\")");
             value = GetData();
-            ESP_LOGI(LOGTAG, "open Dynatrace infrastructure problems: %i", value);
+            ESP_LOGI(LOGTAG, "Open Dynatrace infrastructure problems: %i", value);
             if (value >= 0) {
                 miInfrastructureProblems = value;
             }
 
             ParseIntegrationUrl(mDtUrl, mpConfig->msDTEnvIdOrUrl, mpConfig->msDTApiToken, "status(\"open\"),impactLevel(\"SERVICES\")");
             value = GetData();
-            ESP_LOGI(LOGTAG, "open Dynatrace services problems: %i", value);
+            ESP_LOGI(LOGTAG, "Open Dynatrace services problems: %i", value);
             if (value >= 0) {
                 miServiceProblems = value;
             }
 
             ParseIntegrationUrl(mDtUrl, mpConfig->msDTEnvIdOrUrl, mpConfig->msDTApiToken, "status(\"open\"),impactLevel(\"APPLICATION\")");
             value = GetData();
-            ESP_LOGI(LOGTAG, "open Dynatrace application problems: %i", value);
+            ESP_LOGI(LOGTAG, "Open Dynatrace application problems: %i", value);
             if (value >= 0) {
                 miApplicationProblems = value;
             }
@@ -179,7 +177,7 @@ void DynatraceIntegration::Run(__uint8_t uTaskId) {
 
 int DynatraceIntegration::GetData() {
     int value = 0;
-	ESP_LOGD(LOGTAG, "polling");
+	ESP_LOGD(LOGTAG, "Polling");
     DynatraceAction* dtPollApi = mpUfo->dt.enterAction("Poll Dynatrace API");	
 
     if (dtClient.Prepare(&mDtUrl)) {
@@ -189,7 +187,7 @@ int DynatraceIntegration::GetData() {
         String response = dtClient.GetResponseData();
         mpUfo->dt.leaveAction(dtHttpGet, &mDtUrlString, responseCode, response.length());
         if (responseCode == 200) {
-            ESP_LOGE(LOGTAG, "GOT the response!! %s", response.c_str());
+            ESP_LOGD(LOGTAG, "Dynatrace response!! %s", response.c_str());
             DynatraceAction* dtProcess = mpUfo->dt.enterAction("Process Dynatrace Metrics", dtPollApi);	
             value = Process(response);
             mpUfo->dt.leaveAction(dtProcess);
