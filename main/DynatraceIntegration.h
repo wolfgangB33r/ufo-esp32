@@ -26,8 +26,8 @@ public:
 
 private:
 
-    void GetData();
-    void Process(String& jsonString);
+    int GetData();
+    int Process(String& jsonString);
     void DisplayDefault();
     void HandleFailure();
 
