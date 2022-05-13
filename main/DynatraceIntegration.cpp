@@ -88,27 +88,27 @@ void DynatraceIntegration::ProcessConfigChange(){
     mActConfigRevision++;
 }
 
-void ParseIntegrationUrl(Url& rUrl, String& sEnvIdOrUrl, String& sApiToken, const char * problemSelector){
+void ParseIntegrationUrl(Url& rUrl, String& sEnvIdOrUrl, String& sApiToken){
     String sHelp;
     ESP_LOGI(LOGTAG, "%s", sEnvIdOrUrl.c_str());
     ESP_LOGD(LOGTAG, "%s", sApiToken.c_str());
 
     if (sEnvIdOrUrl.length()){
         if (sEnvIdOrUrl.indexOf(".") < 0){ //an environment id
-            sHelp.printf("https://%s.live.dynatrace.com/api/v2/problems?pageSize=1&Api-Token=%s&problemSelector=%s", sEnvIdOrUrl.c_str(), sApiToken.c_str(), problemSelector);
+            sHelp.printf("https://%s.live.dynatrace.com/api/v2/problems?pageSize=1&Api-Token=%s&problemSelector=status(\"open\")", sEnvIdOrUrl.c_str(), sApiToken.c_str());
         }
         else{
             if (sEnvIdOrUrl.startsWith("http")){
                 if (sEnvIdOrUrl.charAt(sEnvIdOrUrl.length()-1) == '/')
-                    sHelp.printf("%sapi/v2/problems?pageSize=1&Api-Token=%s&problemSelector=%s", sEnvIdOrUrl.c_str(), sApiToken.c_str(), problemSelector);
+                    sHelp.printf("%sapi/v2/problems?pageSize=1&Api-Token=%s&problemSelector=status(\"open\")", sEnvIdOrUrl.c_str(), sApiToken.c_str()r);
                 else
-                    sHelp.printf("%s/api/v2/problems?pageSize=1&Api-Token=%s&problemSelector=%s", sEnvIdOrUrl.c_str(), sApiToken.c_str(), problemSelector);
+                    sHelp.printf("%s/api/v2/problems?pageSize=1&Api-Token=%s&problemSelector=status(\"open\")", sEnvIdOrUrl.c_str(), sApiToken.c_str());
             }
             else{
                 if (sEnvIdOrUrl.charAt(sEnvIdOrUrl.length()-1) == '/')
-                    sHelp.printf("https://%sapi/v2/problems?pageSize=1&pageSize=1&Api-Token=%s&problemSelector=%s", sEnvIdOrUrl.c_str(), sApiToken.c_str(), problemSelector);
+                    sHelp.printf("https://%sapi/v2/problems?pageSize=1&pageSize=1&Api-Token=%s&problemSelector=status(\"open\")", sEnvIdOrUrl.c_str(), sApiToken.c_str());
                 else
-                    sHelp.printf("https://%s/api/v2/problems?pageSize=1&pageSize=1&Api-Token=%s&problemSelector=%s", sEnvIdOrUrl.c_str(), sApiToken.c_str(), problemSelector);
+                    sHelp.printf("https://%s/api/v2/problems?pageSize=1&pageSize=1&Api-Token=%s&problemSelector=status(\"open\")", sEnvIdOrUrl.c_str(), sApiToken.c_str());
             }
                 
         }   
