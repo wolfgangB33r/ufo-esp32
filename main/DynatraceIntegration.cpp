@@ -250,7 +250,7 @@ void DynatraceIntegration::Process(String& jsonString) {
     }
 
     int iTotalProblems = cJSON_GetObjectItem(parentJson, "totalCount")->valueint;
-    int iInfrastructureProblems = cJSON_GetObjectItem(jsparentJsonon, "totalCount")->valueint; //cJSON_GetObjectItem(cJSON_GetObjectItem(json, "openProblemCounts"), "INFRASTRUCTURE")->valueint;
+    int iInfrastructureProblems = cJSON_GetObjectItem(jsparentJson, "totalCount")->valueint; //cJSON_GetObjectItem(cJSON_GetObjectItem(json, "openProblemCounts"), "INFRASTRUCTURE")->valueint;
     int iApplicationProblems = cJSON_GetObjectItem(parentJson, "totalCount")->valueint; //cJSON_GetObjectItem(cJSON_GetObjectItem(json, "openProblemCounts"), "APPLICATION")->valueint;
     int iServiceProblems = cJSON_GetObjectItem(parentJson, "totalCount")->valueint; //cJSON_GetObjectItem(cJSON_GetObjectItem(json, "openProblemCounts"), "SERVICE")->valueint;
 
