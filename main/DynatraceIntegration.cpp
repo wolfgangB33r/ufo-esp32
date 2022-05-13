@@ -88,7 +88,7 @@ void DynatraceIntegration::ProcessConfigChange(){
     mActConfigRevision++;
 }
 
-void ParseIntegrationUrl(Url& rUrl, String& sEnvIdOrUrl, String& sApiToken, char *s){
+void ParseIntegrationUrl(Url& rUrl, String& sEnvIdOrUrl, String& sApiToken, char *problemSelector){
     String sHelp;
     ESP_LOGI(LOGTAG, "%s", sEnvIdOrUrl.c_str());
     ESP_LOGD(LOGTAG, "%s", sApiToken.c_str());
