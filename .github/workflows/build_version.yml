@@ -1,0 +1,60 @@
+name: Dynatrace UFO build and store a version
+on:  
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
+    
+    - name: Output results
+      run: |
+        ls -l
+
+    - name: Data to header file conversion
+      run: |
+        python data2h.py data/index.html main/indexhtml.h
+        python data2h.py data/material-design-icons.ttf main/fontttf.h
+        python data2h.py data/material-design-icons.woff main/fontwoff.h
+        python data2h.py data/material-design-icons.svg main/fontsvg.h
+        python data2h.py data/material-design-icons.eot main/fonteot.h
+        python data2h.py data/cert.pem main/certpem.h
+        python data2h.py data/key.pem main/keypem.h
+
+    - name: esp-idf build
+      uses: espressif/esp-idf-ci-action@main
+      with:
+        esp_idf_version: v3.3.1
+        path: '.'
+        
+    - name: List build artefacts
+      run: |
+        ls -l build/
+
+    - name: Update version.json file
+      uses: jossef/action-set-json-field@v1
+      with:
+        file: firmware_nightly/version.json
+        field: version
+        value: mynewversion
+    
+#    - name: Store Artifacts
+#      uses: actions/upload-artifact@v2
+#      with:
+#        name: ufo-esp32.bin 
+#        path: |
+#          build/ufo-esp32.bin
+
+    - name: Copy firmware to firmware_nightly folder
+      run: |
+        cp build/ufo-esp32.bin /firmware_nightly/ufo-esp32.bin
+        git add . -A
+        git commit -m "nightly build"
+        git push
