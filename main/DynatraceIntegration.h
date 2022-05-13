@@ -41,6 +41,7 @@ private:
     
     Url mDtUrl;
     String mDtUrlString;
+    const char openProblemsSelector[] = "status(\"open\")";
     
     bool mInitialized = false;
     bool mEnabled;
