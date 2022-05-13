@@ -169,7 +169,6 @@ int DynatraceIntegration::GetData() {
     int value = 0;
 	ESP_LOGD(LOGTAG, "polling");
     DynatraceAction* dtPollApi = mpUfo->dt.enterAction("Poll Dynatrace API");	
-    ESP_LOGE(LOGTAG, "Here");
 
     if (dtClient.Prepare(&mDtUrl)) {
 
@@ -253,7 +252,7 @@ int DynatraceIntegration::Process(String& jsonString) {
     ESP_LOGI(LOGTAG, "Start to process");
     cJSON* parentJson = cJSON_Parse(jsonString.c_str());
     if (!parentJson)
-        return;
+        return -1;
     
     if (LOG_LOCAL_LEVEL >= ESP_LOG_DEBUG){
         char* sJsonPrint = cJSON_Print(parentJson);
