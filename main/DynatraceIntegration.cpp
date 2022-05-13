@@ -129,7 +129,7 @@ void DynatraceIntegration::Run(__uint8_t uTaskId) {
             //Configuration is not atomic - so in case of a change there is the possibility that we use inconsistent credentials - but who cares (the next time it would be fine again)
             if (uConfigRevision != mActConfigRevision){
                 uConfigRevision = mActConfigRevision; //memory barrier would be needed here
-                ParseIntegrationUrl(mDtUrl, mpConfig->msDTEnvIdOrUrl, mpConfig->msDTApiToken, openProblemsSelector);
+                ParseIntegrationUrl(mDtUrl, mpConfig->msDTEnvIdOrUrl, mpConfig->msDTApiToken);
             }
             GetData();
             ESP_LOGD(LOGTAG, "free heap after processing DT: %i", esp_get_free_heap_size());            
