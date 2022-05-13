@@ -100,7 +100,7 @@ void ParseIntegrationUrl(Url& rUrl, String& sEnvIdOrUrl, String& sApiToken){
         else{
             if (sEnvIdOrUrl.startsWith("http")){
                 if (sEnvIdOrUrl.charAt(sEnvIdOrUrl.length()-1) == '/')
-                    sHelp.printf("%sapi/v2/problems?pageSize=1&Api-Token=%s&problemSelector=status(\"open\")", sEnvIdOrUrl.c_str(), sApiToken.c_str()r);
+                    sHelp.printf("%sapi/v2/problems?pageSize=1&Api-Token=%s&problemSelector=status(\"open\")", sEnvIdOrUrl.c_str(), sApiToken.c_str());
                 else
                     sHelp.printf("%s/api/v2/problems?pageSize=1&Api-Token=%s&problemSelector=status(\"open\")", sEnvIdOrUrl.c_str(), sApiToken.c_str());
             }
