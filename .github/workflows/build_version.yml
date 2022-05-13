@@ -55,6 +55,8 @@ jobs:
     - name: Copy firmware to firmware_nightly folder
       run: |
         cp build/ufo-esp32.bin firmware_nightly/ufo-esp32.bin
+        git config --global user.email "wolfgang@smartlab.at"
+        git config --global user.name "wolfgangB33r"
         git add . -A
         git commit -m "nightly build"
         git push
