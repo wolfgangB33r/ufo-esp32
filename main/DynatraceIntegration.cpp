@@ -129,10 +129,25 @@ void DynatraceIntegration::Run(__uint8_t uTaskId) {
             //Configuration is not atomic - so in case of a change there is the possibility that we use inconsistent credentials - but who cares (the next time it would be fine again)
             if (uConfigRevision != mActConfigRevision){
                 uConfigRevision = mActConfigRevision; //memory barrier would be needed here
-                
                 ParseIntegrationUrl(mDtUrl, mpConfig->msDTEnvIdOrUrl, mpConfig->msDTApiToken, "status(\"open\")");
             }
-            GetData();
+            int value = GetData();
+            ESP_LOGI(LOGTAG, "open Dynatrace problems: %i", value);
+            /*
+            if (iInfrastructureProblems != miInfrastructureProblems) {
+                miInfrastructureProblems = iInfrastructureProblems;
+            }
+            if (iApplicationProblems != miApplicationProblems) {
+                miApplicationProblems = iApplicationProblems;
+            }
+            if (iServiceProblems != miServiceProblems) {
+                miServiceProblems = iServiceProblems;
+            }
+            miTotalProblems = iTotalProblems;
+            */
+
+            DisplayDefault();
+
             ESP_LOGD(LOGTAG, "free heap after processing DT: %i", esp_get_free_heap_size());            
 
             for (int i=0 ; i < mpConfig->muDTInterval ; i++){
@@ -150,7 +165,8 @@ void DynatraceIntegration::Run(__uint8_t uTaskId) {
     }
 }
 
-void DynatraceIntegration::GetData() {
+int DynatraceIntegration::GetData() {
+    int value = 0;
 	ESP_LOGD(LOGTAG, "polling");
     DynatraceAction* dtPollApi = mpUfo->dt.enterAction("Poll Dynatrace API");	
     ESP_LOGE(LOGTAG, "Here");
@@ -164,7 +180,7 @@ void DynatraceIntegration::GetData() {
         if (responseCode == 200) {
             ESP_LOGE(LOGTAG, "GOT the response!! %s", response.c_str());
             DynatraceAction* dtProcess = mpUfo->dt.enterAction("Process Dynatrace Metrics", dtPollApi);	
-            Process(response);
+            value = Process(response);
             mpUfo->dt.leaveAction(dtProcess);
         } else {
             ESP_LOGE(LOGTAG, "Communication with Dynatrace failed - error %u", responseCode);
@@ -175,6 +191,7 @@ void DynatraceIntegration::GetData() {
     }
     dtClient.Clear();
     mpUfo->dt.leaveAction(dtPollApi);
+    return value;
 }
 
 void DynatraceIntegration::HandleFailure() {
@@ -232,7 +249,7 @@ void DynatraceIntegration::DisplayDefault() {
 }
 
 
-void DynatraceIntegration::Process(String& jsonString) {
+int DynatraceIntegration::Process(String& jsonString) {
     ESP_LOGI(LOGTAG, "Start to process");
     cJSON* parentJson = cJSON_Parse(jsonString.c_str());
     if (!parentJson)
@@ -244,29 +261,9 @@ void DynatraceIntegration::Process(String& jsonString) {
         free(sJsonPrint);
     }
 
-    int iTotalProblems = cJSON_GetObjectItem(parentJson, "totalCount")->valueint;
-    int iInfrastructureProblems = cJSON_GetObjectItem(parentJson, "totalCount")->valueint; //cJSON_GetObjectItem(cJSON_GetObjectItem(json, "openProblemCounts"), "INFRASTRUCTURE")->valueint;
-    int iApplicationProblems = cJSON_GetObjectItem(parentJson, "totalCount")->valueint; //cJSON_GetObjectItem(cJSON_GetObjectItem(json, "openProblemCounts"), "APPLICATION")->valueint;
-    int iServiceProblems = cJSON_GetObjectItem(parentJson, "totalCount")->valueint; //cJSON_GetObjectItem(cJSON_GetObjectItem(json, "openProblemCounts"), "SERVICE")->valueint;
-
-    ESP_LOGI(LOGTAG, "open Dynatrace problems: %i", iTotalProblems);
-    ESP_LOGI(LOGTAG, "open Infrastructure problems: %i", iInfrastructureProblems);
-    ESP_LOGI(LOGTAG, "open Application problems: %i", iApplicationProblems);
-    ESP_LOGI(LOGTAG, "open Service problems: %i", iServiceProblems);
+    int value = cJSON_GetObjectItem(parentJson, "totalCount")->valueint;
 
     cJSON_Delete(parentJson);
 
-    if (iInfrastructureProblems != miInfrastructureProblems) {
-        miInfrastructureProblems = iInfrastructureProblems;
-    }
-    if (iApplicationProblems != miApplicationProblems) {
-        miApplicationProblems = iApplicationProblems;
-    }
-    if (iServiceProblems != miServiceProblems) {
-        miServiceProblems = iServiceProblems;
-    }
-    miTotalProblems = iTotalProblems;
-
-    DisplayDefault();
-
+    return value;
 }
