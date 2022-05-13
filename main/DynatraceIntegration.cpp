@@ -129,22 +129,34 @@ void DynatraceIntegration::Run(__uint8_t uTaskId) {
             //Configuration is not atomic - so in case of a change there is the possibility that we use inconsistent credentials - but who cares (the next time it would be fine again)
             if (uConfigRevision != mActConfigRevision){
                 uConfigRevision = mActConfigRevision; //memory barrier would be needed here
-                ParseIntegrationUrl(mDtUrl, mpConfig->msDTEnvIdOrUrl, mpConfig->msDTApiToken, "status(\"open\")");
             }
+            ParseIntegrationUrl(mDtUrl, mpConfig->msDTEnvIdOrUrl, mpConfig->msDTApiToken, "status(\"open\")");
             int value = GetData();
             ESP_LOGI(LOGTAG, "open Dynatrace problems: %i", value);
-            /*
-            if (iInfrastructureProblems != miInfrastructureProblems) {
-                miInfrastructureProblems = iInfrastructureProblems;
+            if (value >= 0) {
+                miTotalProblems = value;
             }
-            if (iApplicationProblems != miApplicationProblems) {
-                miApplicationProblems = iApplicationProblems;
+
+            ParseIntegrationUrl(mDtUrl, mpConfig->msDTEnvIdOrUrl, mpConfig->msDTApiToken, "status(\"open\"),impactLevel(\"INFRASTRUCTURE\")");
+            value = GetData();
+            ESP_LOGI(LOGTAG, "open Dynatrace infrastructure problems: %i", value);
+            if (value >= 0) {
+                miInfrastructureProblems = value;
             }
-            if (iServiceProblems != miServiceProblems) {
-                miServiceProblems = iServiceProblems;
+
+            ParseIntegrationUrl(mDtUrl, mpConfig->msDTEnvIdOrUrl, mpConfig->msDTApiToken, "status(\"open\"),impactLevel(\"SERVICES\")");
+            value = GetData();
+            ESP_LOGI(LOGTAG, "open Dynatrace services problems: %i", value);
+            if (value >= 0) {
+                miServiceProblems = value;
             }
-            miTotalProblems = iTotalProblems;
-            */
+
+            ParseIntegrationUrl(mDtUrl, mpConfig->msDTEnvIdOrUrl, mpConfig->msDTApiToken, "status(\"open\"),impactLevel(\"APPLICATION\")");
+            value = GetData();
+            ESP_LOGI(LOGTAG, "open Dynatrace application problems: %i", value);
+            if (value >= 0) {
+                miApplicationProblems = value;
+            }
 
             DisplayDefault();
 
