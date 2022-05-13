@@ -88,27 +88,27 @@ void DynatraceIntegration::ProcessConfigChange(){
     mActConfigRevision++;
 }
 
-void ParseIntegrationUrl(Url& rUrl, String& sEnvIdOrUrl, String& sApiToken){
+void ParseIntegrationUrl(Url& rUrl, String& sEnvIdOrUrl, String& sApiToken, String& problemSelector){
     String sHelp;
     ESP_LOGI(LOGTAG, "%s", sEnvIdOrUrl.c_str());
     ESP_LOGD(LOGTAG, "%s", sApiToken.c_str());
 
     if (sEnvIdOrUrl.length()){
         if (sEnvIdOrUrl.indexOf(".") < 0){ //an environment id
-            sHelp.printf("https://%s.live.dynatrace.com/api/v2/problems?pageSize=1&Api-Token=%s&problemSelector=status(\"open\")", sEnvIdOrUrl.c_str(), sApiToken.c_str());
+            sHelp.printf("https://%s.live.dynatrace.com/api/v2/problems?pageSize=1&Api-Token=%s&problemSelector=%s", sEnvIdOrUrl.c_str(), sApiToken.c_str(), problemSelector);
         }
         else{
             if (sEnvIdOrUrl.startsWith("http")){
                 if (sEnvIdOrUrl.charAt(sEnvIdOrUrl.length()-1) == '/')
-                    sHelp.printf("%sapi/v2/problems?pageSize=1&Api-Token=%s&problemSelector=status(\"open\")", sEnvIdOrUrl.c_str(), sApiToken.c_str());
+                    sHelp.printf("%sapi/v2/problems?pageSize=1&Api-Token=%s&problemSelector=%s", sEnvIdOrUrl.c_str(), sApiToken.c_str(), problemSelector);
                 else
-                    sHelp.printf("%s/api/v2/problems?pageSize=1&Api-Token=%s&problemSelector=status(\"open\")", sEnvIdOrUrl.c_str(), sApiToken.c_str());
+                    sHelp.printf("%s/api/v2/problems?pageSize=1&Api-Token=%s&problemSelector=%s", sEnvIdOrUrl.c_str(), sApiToken.c_str(), problemSelector);
             }
             else{
                 if (sEnvIdOrUrl.charAt(sEnvIdOrUrl.length()-1) == '/')
-                    sHelp.printf("https://%sapi/v2/problems?pageSize=1&pageSize=1&Api-Token=%s&problemSelector=status(\"open\")", sEnvIdOrUrl.c_str(), sApiToken.c_str());
+                    sHelp.printf("https://%sapi/v2/problems?pageSize=1&pageSize=1&Api-Token=%s&problemSelector=%s", sEnvIdOrUrl.c_str(), sApiToken.c_str(), problemSelector);
                 else
-                    sHelp.printf("https://%s/api/v2/problems?pageSize=1&pageSize=1&Api-Token=%s&problemSelector=status(\"open\")", sEnvIdOrUrl.c_str(), sApiToken.c_str());
+                    sHelp.printf("https://%s/api/v2/problems?pageSize=1&pageSize=1&Api-Token=%s&problemSelector=%s", sEnvIdOrUrl.c_str(), sApiToken.c_str(), problemSelector);
             }
                 
         }   
@@ -129,7 +129,9 @@ void DynatraceIntegration::Run(__uint8_t uTaskId) {
             //Configuration is not atomic - so in case of a change there is the possibility that we use inconsistent credentials - but who cares (the next time it would be fine again)
             if (uConfigRevision != mActConfigRevision){
                 uConfigRevision = mActConfigRevision; //memory barrier would be needed here
-                ParseIntegrationUrl(mDtUrl, mpConfig->msDTEnvIdOrUrl, mpConfig->msDTApiToken);
+                String problemSelector;
+                problemSelector.printf("status(\"open\")");
+                ParseIntegrationUrl(mDtUrl, mpConfig->msDTEnvIdOrUrl, mpConfig->msDTApiToken, problemSelector);
             }
             GetData();
             ESP_LOGD(LOGTAG, "free heap after processing DT: %i", esp_get_free_heap_size());            
