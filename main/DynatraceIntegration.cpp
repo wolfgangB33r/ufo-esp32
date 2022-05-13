@@ -88,7 +88,7 @@ void DynatraceIntegration::ProcessConfigChange(){
     mActConfigRevision++;
 }
 
-void ParseIntegrationUrl(Url& rUrl, String& sEnvIdOrUrl, String& sApiToken, String& problemSelector){
+void ParseIntegrationUrl(Url& rUrl, String& sEnvIdOrUrl, String& sApiToken, char *s){
     String sHelp;
     ESP_LOGI(LOGTAG, "%s", sEnvIdOrUrl.c_str());
     ESP_LOGD(LOGTAG, "%s", sApiToken.c_str());
@@ -129,9 +129,8 @@ void DynatraceIntegration::Run(__uint8_t uTaskId) {
             //Configuration is not atomic - so in case of a change there is the possibility that we use inconsistent credentials - but who cares (the next time it would be fine again)
             if (uConfigRevision != mActConfigRevision){
                 uConfigRevision = mActConfigRevision; //memory barrier would be needed here
-                String problemSelector;
-                problemSelector.printf("status(\"open\")");
-                ParseIntegrationUrl(mDtUrl, mpConfig->msDTEnvIdOrUrl, mpConfig->msDTApiToken, problemSelector);
+                
+                ParseIntegrationUrl(mDtUrl, mpConfig->msDTEnvIdOrUrl, mpConfig->msDTApiToken, "status(\"open\")");
             }
             GetData();
             ESP_LOGD(LOGTAG, "free heap after processing DT: %i", esp_get_free_heap_size());            
