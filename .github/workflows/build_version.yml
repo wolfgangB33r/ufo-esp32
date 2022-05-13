@@ -54,7 +54,7 @@ jobs:
 
     - name: Copy firmware to firmware_nightly folder
       run: |
-        cp build/ufo-esp32.bin /firmware_nightly/ufo-esp32.bin
+        cp build/ufo-esp32.bin firmware_nightly/ufo-esp32.bin
         git add . -A
         git commit -m "nightly build"
         git push
