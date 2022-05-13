@@ -238,12 +238,9 @@ void DynatraceIntegration::DisplayDefault() {
 
 
 void DynatraceIntegration::Process(String& jsonString) {
-    
+    ESP_LOGI(LOGTAG, "Start to process");
     cJSON* parentJson = cJSON_Parse(jsonString.c_str());
     if (!parentJson)
-        return;
-    cJSON* json = cJSON_GetObjectItem(parentJson, "result");
-    if (!json)
         return;
     
     if (LOG_LOCAL_LEVEL >= ESP_LOG_DEBUG){
@@ -252,10 +249,10 @@ void DynatraceIntegration::Process(String& jsonString) {
         free(sJsonPrint);
     }
 
-    int iTotalProblems = cJSON_GetObjectItem(json, "totalCount")->valueint;
-    int iInfrastructureProblems = cJSON_GetObjectItem(json, "totalCount")->valueint; //cJSON_GetObjectItem(cJSON_GetObjectItem(json, "openProblemCounts"), "INFRASTRUCTURE")->valueint;
-    int iApplicationProblems = cJSON_GetObjectItem(json, "totalCount")->valueint; //cJSON_GetObjectItem(cJSON_GetObjectItem(json, "openProblemCounts"), "APPLICATION")->valueint;
-    int iServiceProblems = cJSON_GetObjectItem(json, "totalCount")->valueint; //cJSON_GetObjectItem(cJSON_GetObjectItem(json, "openProblemCounts"), "SERVICE")->valueint;
+    int iTotalProblems = cJSON_GetObjectItem(parentJson, "totalCount")->valueint;
+    int iInfrastructureProblems = cJSON_GetObjectItem(jsparentJsonon, "totalCount")->valueint; //cJSON_GetObjectItem(cJSON_GetObjectItem(json, "openProblemCounts"), "INFRASTRUCTURE")->valueint;
+    int iApplicationProblems = cJSON_GetObjectItem(parentJson, "totalCount")->valueint; //cJSON_GetObjectItem(cJSON_GetObjectItem(json, "openProblemCounts"), "APPLICATION")->valueint;
+    int iServiceProblems = cJSON_GetObjectItem(parentJson, "totalCount")->valueint; //cJSON_GetObjectItem(cJSON_GetObjectItem(json, "openProblemCounts"), "SERVICE")->valueint;
 
     ESP_LOGI(LOGTAG, "open Dynatrace problems: %i", iTotalProblems);
     ESP_LOGI(LOGTAG, "open Infrastructure problems: %i", iInfrastructureProblems);
