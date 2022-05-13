@@ -96,24 +96,24 @@ void ParseIntegrationUrl(Url& rUrl, String& sEnvIdOrUrl, String& sApiToken, Stri
     if (sEnvIdOrUrl.length()){
         if (sEnvIdOrUrl.indexOf(".") < 0){ //an environment id
             //sHelp.printf("https://%s.live.dynatrace.com/api/v2/problems?pageSize=1&problemSelector=%s&Api-Token=%s", sEnvIdOrUrl.c_str(), problemSelector.c_str(), sApiToken.c_str());
-            sHelp.printf("https://%s.live.dynatrace.com/api/v2/problems?pageSize=1&Api-Token=%s", sEnvIdOrUrl.c_str(), problemSelector.c_str(), sApiToken.c_str());
+            sHelp.printf("https://%s.live.dynatrace.com/api/v2/problems?pageSize=1&Api-Token=%s", sEnvIdOrUrl.c_str(), sApiToken.c_str());
         }
         else{
             if (sEnvIdOrUrl.startsWith("http")){
                 if (sEnvIdOrUrl.charAt(sEnvIdOrUrl.length()-1) == '/')
                     //sHelp.printf("%sapi/v2/problems?pageSize=1&problemSelector=%s&Api-Token=%s", sEnvIdOrUrl.c_str(), problemSelector.c_str(), sApiToken.c_str());
-                    sHelp.printf("%sapi/v2/problems?pageSize=1&Api-Token=%s", sEnvIdOrUrl.c_str(), problemSelector.c_str(), sApiToken.c_str());
+                    sHelp.printf("%sapi/v2/problems?pageSize=1&Api-Token=%s", sEnvIdOrUrl.c_str(), sApiToken.c_str());
                 else
                     //sHelp.printf("%s/api/v2/problems?pageSize=1&problemSelector=%s&Api-Token=%s", sEnvIdOrUrl.c_str(), problemSelector.c_str(), sApiToken.c_str());
-                    sHelp.printf("%s/api/v2/problems?pageSize=1&Api-Token=%s", sEnvIdOrUrl.c_str(), problemSelector.c_str(), sApiToken.c_str());
+                    sHelp.printf("%s/api/v2/problems?pageSize=1&Api-Token=%s", sEnvIdOrUrl.c_str(), sApiToken.c_str());
             }
             else{
                 if (sEnvIdOrUrl.charAt(sEnvIdOrUrl.length()-1) == '/')
                     //sHelp.printf("https://%sapi/v2/problems?pageSize=1&problemSelector=%s&pageSize=1&Api-Token=%s", sEnvIdOrUrl.c_str(), problemSelector.c_str(), sApiToken.c_str());
-                    sHelp.printf("https://%sapi/v2/problems?pageSize=1&pageSize=1&Api-Token=%s", sEnvIdOrUrl.c_str(), problemSelector.c_str(), sApiToken.c_str());
+                    sHelp.printf("https://%sapi/v2/problems?pageSize=1&pageSize=1&Api-Token=%s", sEnvIdOrUrl.c_str(), sApiToken.c_str());
                 else
                     //sHelp.printf("https://%s/api/v2/problems?pageSize=1&problemSelector=%s&pageSize=1&Api-Token=%s", sEnvIdOrUrl.c_str(), problemSelector.c_str(), sApiToken.c_str());
-                    sHelp.printf("https://%s/api/v2/problems?pageSize=1&pageSize=1&Api-Token=%s", sEnvIdOrUrl.c_str(), problemSelector.c_str(), sApiToken.c_str());
+                    sHelp.printf("https://%s/api/v2/problems?pageSize=1&pageSize=1&Api-Token=%s", sEnvIdOrUrl.c_str(), sApiToken.c_str());
             }
                 
         }   
