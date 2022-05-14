@@ -40,7 +40,7 @@ jobs:
 
     - name: Get current date
       id: date
-      run: echo "::set-output name=date::$(date +'%mmm %dd %YYYY - %hh:%MM:%SS')"
+      run: echo "::set-output name=date::$(date +'%h %d %Y - %H:%M:%S')"
 
     - name: Update version.json file
       uses: jossef/action-set-json-field@v1
