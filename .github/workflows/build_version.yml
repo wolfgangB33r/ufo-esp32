@@ -38,12 +38,16 @@ jobs:
       run: |
         ls -l build/
 
+    - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%mmm %dd %YYYY - %hh:%MM:%SS')"
+
     - name: Update version.json file
       uses: jossef/action-set-json-field@v1
       with:
         file: firmware_nightly/version.json
         field: version
-        value: mynewversion
+        value: ${{ steps.date.outputs.date }}
     
 #    - name: Store Artifacts
 #      uses: actions/upload-artifact@v2
