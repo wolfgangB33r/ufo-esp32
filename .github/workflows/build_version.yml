@@ -1,4 +1,4 @@
-name: Dynatrace UFO build and store a version
+name: Dynatrace UFO build and store the version
 on:  
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
