@@ -45,7 +45,7 @@ jobs:
     - name: Update version.json file
       uses: jossef/action-set-json-field@v1
       with:
-        file: firmware_nightly/version.json
+        file: nightly/version.json
         field: version
         value: ${{ steps.date.outputs.date }}
     
@@ -56,9 +56,9 @@ jobs:
 #        path: |
 #          build/ufo-esp32.bin
 
-    - name: Copy firmware to firmware_nightly folder
+    - name: Copy firmware to nightly folder
       run: |
-        cp build/ufo-esp32.bin firmware_nightly/ufo-esp32.bin
+        cp build/ufo-esp32.bin nightly/ufo-esp32.bin
         git config --global user.email "wolfgang@smartlab.at"
         git config --global user.name "wolfgangB33r"
         git add . -A
