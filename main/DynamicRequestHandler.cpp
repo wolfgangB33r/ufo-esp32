@@ -561,6 +561,10 @@ bool DynamicRequestHandler::HandleCheckFirmwareRequest(std::list<TParam>& params
     if (statuscode != 200)
 		return false;
 	int i = webClient.GetResponseData().indexOf("\"version\":\"");
+	if (i <= 0) {
+		// fallback check with trailing space character
+		i = webClient.GetResponseData().indexOf("\"version\": \"");	
+	}
 	if (i <= 0)
 		return false;
 	String version = webClient.GetResponseData().substring(i + 11);
