@@ -553,7 +553,7 @@ bool DynamicRequestHandler::HandleCheckFirmwareRequest(std::list<TParam>& params
 	Url url;
 	url.Parse(OTA_LATEST_FIRMWARE_JSON_URL);
 
-	ESP_LOGE(tag, "Retrieve json from: %s", url.GetUrl().c_str());
+	ESP_LOGD(tag, "Retrieve json from: %s", url.GetUrl().c_str());
 	WebClient webClient;
 	webClient.Prepare(&url);
 
@@ -562,21 +562,20 @@ bool DynamicRequestHandler::HandleCheckFirmwareRequest(std::list<TParam>& params
 		ESP_LOGE(tag, "Retrieve version from GitHub response code: %d", statuscode);
 		return false;
 	}
-	int i = webClient.GetResponseData().indexOf("\"version\":\"");
+	int i = webClient.GetResponseData().indexOf("\"version\":");
 	if (i <= 0) {
-		// fallback check with trailing space character
-		i = webClient.GetResponseData().indexOf("\"version\": \"");	
-	}
-	if (i <= 0) {
-		ESP_LOGE(tag, "Version format invalid");
+		ESP_LOGE(tag, "Version format invalid %s", version);
 		return false;
 	}
 		
 	String version = webClient.GetResponseData().substring(i + 11);
 	i = version.indexOf('"');
-	if (i <= 0)
+	if (i <= 0) {
+		ESP_LOGE(tag, "Version format invalid %s", version);
 		return false;
-	version = version.substring(0, i);
+	}
+		
+	version = version.substring(i, version.indexOf('"', i + 1));
 
 	if (!version.equalsIgnoreCase(FIRMWARE_VERSION)){
 		sBody = "{\"newversion\":\"Firmware available: ";
