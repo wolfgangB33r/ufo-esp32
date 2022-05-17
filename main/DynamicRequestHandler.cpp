@@ -553,20 +553,25 @@ bool DynamicRequestHandler::HandleCheckFirmwareRequest(std::list<TParam>& params
 	Url url;
 	url.Parse(OTA_LATEST_FIRMWARE_JSON_URL);
 
-	ESP_LOGD(tag, "Retrieve json from: %s", url.GetUrl().c_str());
+	ESP_LOGE(tag, "Retrieve json from: %s", url.GetUrl().c_str());
 	WebClient webClient;
 	webClient.Prepare(&url);
 
 	unsigned short statuscode = webClient.HttpGet();
-    if (statuscode != 200)
+    if (statuscode != 200) {
+		ESP_LOGE(tag, "Retrieve version from GitHub response code: %d", statuscode);
 		return false;
+	}
 	int i = webClient.GetResponseData().indexOf("\"version\":\"");
 	if (i <= 0) {
 		// fallback check with trailing space character
 		i = webClient.GetResponseData().indexOf("\"version\": \"");	
 	}
-	if (i <= 0)
+	if (i <= 0) {
+		ESP_LOGE(tag, "Version format invalid");
 		return false;
+	}
+		
 	String version = webClient.GetResponseData().substring(i + 11);
 	i = version.indexOf('"');
 	if (i <= 0)
