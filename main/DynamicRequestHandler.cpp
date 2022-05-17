@@ -570,7 +570,6 @@ bool DynamicRequestHandler::HandleCheckFirmwareRequest(std::list<TParam>& params
 	String version = webClient.GetResponseData().substring(i + 11);
 	i = version.indexOf('"');
 	if (i <= 0) {
-		ESP_LOGE(tag, "Version format invalid %S", version);
 		return false;
 	}
 		
