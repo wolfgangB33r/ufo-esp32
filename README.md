@@ -1,4 +1,4 @@
-# Dynatrace UFO x
+# Dynatrace UFO
 The 2nd generation of the Dynatrace UFO runs now with ESP32 microcontroller [(specs)](doc/SPECS.md). Also, since not everyone has the time print, solder and assemble themselves, we have produced a limited batch of ufos for your convienience. [https://dynatrace.com/ufo
 ![](ufofeatures.png)](https://dynatrace.com/ufo)
 
